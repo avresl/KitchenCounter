@@ -16,22 +16,22 @@ export default function App() {
         <Tab.Screen
           component={GroceryListScreen}
           name='grocery'
-          options={{ title: 'Grocery List' }}
+          options={{ title: 'My Groceries' }}
         />
         <Tab.Screen
           component={KitchenScreen}
           name='kitchen'
-          options={{ title: 'Kitchen' }}
+          options={{ title: 'My Kitchen' }}
         />
         <Tab.Screen
           component={RecipesScreen}
           name='recipes'
-          options={{ title: 'Recipes' }}
+          options={{ title: 'My Recipes' }}
         />
         <Tab.Screen
           component={CookingScreen}
           name='cooking'
-          options={{ title: 'Cooking' }}
+          options={{ title: 'My Cooking' }}
         />
       </Tab.Navigator>
     </NavigationContainer>

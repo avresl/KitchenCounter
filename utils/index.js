@@ -21,12 +21,12 @@ const toggleSelectAll = (setList, listLength, data) => {
   }
 }
 
-const getGroceryListItemStyle = (item, singleSelection, doubleSelection) => {
+const getIngredientListItemStyle = (item, singleSelection, doubleSelection) => {
   if (singleSelection == item.name || doubleSelection.includes(item.name)) {
-    return styles.groceryListItemSelected;
+    return styles.ingredientListItemSelected;
   } else {
-    return styles.groceryListItem;
+    return styles.ingredientListItem;
   }
 }
 
-export { toggleFromArray, toggleSelectAll, getGroceryListItemStyle };
+export { toggleFromArray, toggleSelectAll, getIngredientListItemStyle };

@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { Pressable, SafeAreaView, ScrollView, Text, TextInput, View } from 'react-native';
 import styles from '../styles';
-import { toggleFromArray, toggleSelectAll, getGroceryListItemStyle } from '../utils';
+import { changeListMode, handleModeListItemPress } from '../hooks';
+import { toggleSelectAll, getIngredientListItemStyle } from '../utils';
 
 function GroceryListScreen() {
 
@@ -31,22 +32,12 @@ function GroceryListScreen() {
   const [selectedGroceryItem, setSelectedGroceryItem] = useState('');
   const [multiSelectedGroceryItems, setMultiSelectedGroceryItems] = useState([]);
 
-  const changeGroceryListMode = (mode) => { // Hook
-    setSelectedGroceryItem('');
-    setMultiSelectedGroceryItems([]);
-    setGroceryListMode(mode);
+  const changeGroceryListMode = (mode) => {
+    changeListMode(setSelectedGroceryItem, setMultiSelectedGroceryItems, setGroceryListMode, mode);
   }
 
-  const handleItemPress = (item) => { // Hook?
-    if (groceryListMode == '') {
-      if (selectedGroceryItem == item.name) {
-        setSelectedGroceryItem('');
-      } else {
-        setSelectedGroceryItem(item.name);
-      }
-    } else {
-      setMultiSelectedGroceryItems(toggleFromArray(multiSelectedGroceryItems,item.name));
-    }
+  const handleItemPress = (item) => {
+    handleModeListItemPress(selectedGroceryItem, setSelectedGroceryItem, multiSelectedGroceryItems, setMultiSelectedGroceryItems, item, groceryListMode)
   }
 
   return (
@@ -66,78 +57,78 @@ function GroceryListScreen() {
         </View>
         <View>
           {groceryListMode == '' ? (
-            <View style={{ flexDirection: 'row', columnGap: 16, marginHorizontal: 8, marginVertical: 4 }}>
+            <View style={styles.ingredientListButtonRow}>
               <View>
                 <Pressable>
-                  <Text style={styles.groceryListButton}>Add</Text>
+                  <Text style={styles.ingredientListButton}>Add</Text>
                 </Pressable>
               </View>
               <View>
                 <Pressable onPress={() => {changeGroceryListMode('remove')}}>
-                  <Text style={styles.groceryListButton}>Remove</Text>
+                  <Text style={styles.ingredientListButton}>Remove</Text>
                 </Pressable>
               </View>
               <View style={{ flexGrow: 1 }}></View>
               <View>
                 <Pressable onPress={() => {changeGroceryListMode('move')}}>
-                  <Text style={styles.groceryListButton}>Move to Kitchen &rarr;</Text>
+                  <Text style={styles.ingredientListButton}>Move to Kitchen &rarr;</Text>
                 </Pressable>
               </View>
             </View>
           ) : groceryListMode == 'remove' || groceryListMode == 'move' ? (
-            <View style={{ flexDirection: 'row', columnGap: 16, marginHorizontal: 8, marginVertical: 4 }}>
+            <View style={styles.ingredientListButtonRow}>
             <View>
                 <Pressable onPress={() => {toggleSelectAll(setMultiSelectedGroceryItems, multiSelectedGroceryItems.length, data)}}>
-                  <Text style={styles.groceryListButton}>{multiSelectedGroceryItems.length == data.length ? 'Deselect All' : 'Select All'}</Text>
+                  <Text style={styles.ingredientListButton}>{multiSelectedGroceryItems.length == data.length ? 'Deselect All' : 'Select All'}</Text>
                 </Pressable>
               </View>
               <View style={{ flexGrow: 1 }}></View>
               <View>
                 <Pressable onPress={() => {changeGroceryListMode('')}}>
-                  <Text style={styles.groceryListButton}>{groceryListMode == 'remove' ? 'Remove' : 'Move'}</Text>
+                  <Text style={styles.ingredientListButton}>{groceryListMode == 'remove' ? 'Remove' : 'Move'}</Text>
                 </Pressable>
               </View>
               <View>
                 <Pressable onPress={() => {changeGroceryListMode('')}}>
-                  <Text style={styles.groceryListButton}>Cancel</Text>
+                  <Text style={styles.ingredientListButton}>Cancel</Text>
                 </Pressable>
               </View>
             </View>
-          ) : setGroceryListMode('')}
+          ) : changeGroceryListMode('')}
         </View>
         {/* <View style={styles.groceryListColumnLabels}>
           <Text style={StyleSheet.compose({flexBasis:'50%'},styles.groceryListColumnLabel)}>Ingredient</Text>
           <Text style={StyleSheet.compose({flexBasis:'30%'},styles.groceryListColumnLabel)}>Quantity</Text>
           <Text style={StyleSheet.compose({flexBasis:'20%'},styles.groceryListColumnLabel)}></Text>
         </View> */}
-        <View style={ styles.groceryList }>
+        <View style={ styles.ingredientList }>
           <ScrollView contentContainerStyle={{ paddingBottom: 270 }}>
             {data.map((item) => (
-              <Pressable key={item.name} onPress={() => handleItemPress(item)} style={ getGroceryListItemStyle(item, selectedGroceryItem, multiSelectedGroceryItems) }>
-                <View style={ styles.groceryListItemName }>
-                  <Text style={ styles.groceryListText }>{item.name}</Text>
+              <Pressable key={item.name} onPress={() => handleItemPress(item)} style={ getIngredientListItemStyle(item, selectedGroceryItem, multiSelectedGroceryItems) }>
+                <View style={ styles.ingredientListItemName }>
+                  <Text style={ styles.ingredientListText }>{item.name}</Text>
                 </View>
-                <View style={ styles.groceryListItemQuantityBox }>
+                <View style={ styles.ingredientListItemQuantityBox }>
                   {selectedGroceryItem != item.name ? (
-                    <View style={ styles.groceryListItemQuantity }>
-                      <Text style={ styles.groceryListText }>{item.quantity} {item.unit}</Text>
+                    <View style={ styles.ingredientListItemQuantity }>
+                      <Text style={ styles.ingredientListText }>{item.quantity} {item.unit}</Text>
                     </View>
                   ) : (
-                    <View style={ styles.groceryListItemQuantitySelected }>
+                    <View style={ styles.ingredientListItemQuantitySelected }>
                       <Pressable onPress={() => {}}>
-                        <Text style={styles.groceryListItemQuantityEditButton}>&minus;</Text>
+                        <Text style={styles.ingredientListItemQuantityEditButton}>&minus;</Text>
                       </Pressable>
                       <View style={{ flexDirection: 'row' }}>
-                        <TextInput keyboardType='decimal-pad' style={ styles.groceryListText } value={item.quantity} />
-                        <Text style={ styles.groceryListText }> {item.unit}</Text>
+                        <TextInput keyboardType='decimal-pad' style={ styles.ingredientListText } value={item.quantity} />
+                        <Text style={ styles.ingredientListText }> {item.unit}</Text>
                       </View>
                       <Pressable onPress={() => {}}>
-                        <Text style={styles.groceryListItemQuantityEditButton}>+</Text>
+                        <Text style={styles.ingredientListItemQuantityEditButton}>+</Text>
                       </Pressable>
                     </View>
                   )}
                 </View>
-                <View style={ styles.groceryListItemImage }>
+                <View style={ styles.ingredientListItemImage }>
                     
                 </View>
               </Pressable>

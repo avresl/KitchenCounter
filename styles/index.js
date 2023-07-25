@@ -16,21 +16,27 @@ const styles = StyleSheet.create({
         marginVertical: 8,
         padding: 8
     },
-    groceryListButton: {
+    ingredientListButtonRow: {
+        columnGap: 16,
+        flexDirection: 'row',
+        marginHorizontal: 8,
+        marginVertical: 4
+    },
+    ingredientListButton: {
         // color: '#0645ad',
         fontSize: 16
     },
-    groceryList: {
+    ingredientList: {
         justifyContent: 'center'
     },
-    groceryListColumnLabels: {
+    ingredientListColumnLabels: {
         flexDirection: 'row',
         margin: 8
     },
-    groceryListColumnLabel: {
+    ingredientListColumnLabel: {
         textAlign: 'center'
     },
-    groceryListItem: {
+    ingredientListItem: {
         backgroundColor: '#fff',
         borderColor: '#ddd',
         borderLeftWidth: 1,
@@ -39,7 +45,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         padding: 8
     },
-    groceryListItemSelected: {
+    ingredientListItemSelected: {
         backgroundColor: '#eee',
         borderColor: '#ddd',
         borderLeftWidth: 1,
@@ -48,35 +54,35 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         padding: 8
     },
-    groceryListText: {
+    ingredientListText: {
         fontSize: 18
     },
-    groceryListItemName: {
+    ingredientListItemName: {
         flexBasis: '50%',
         justifyContent: 'center'
     },
-    groceryListItemQuantityBox: {
+    ingredientListItemQuantityBox: {
         alignItems: 'center',
         flexBasis: '30%',
         flexDirection: 'row',
         justifyContent: 'center',
         paddingHorizontal: 12
     },
-    groceryListItemQuantity: {
+    ingredientListItemQuantity: {
         alignItems: 'center',
         flexDirection: 'row',
         justifyContent: 'center'
     },
-    groceryListItemQuantitySelected: {
+    ingredientListItemQuantitySelected: {
         alignItems: 'center',
         flexBasis: '100%',
         flexDirection: 'row',
         justifyContent: 'space-between'
     },
-    groceryListItemQuantityEditButton: {
+    ingredientListItemQuantityEditButton: {
         fontSize: 24
     },
-    groceryListItemImage: {
+    ingredientListItemImage: {
         alignItems: 'center',
         backgroundColor: '#bbbbbb',
         borderRadius: 8,
